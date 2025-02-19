@@ -1,0 +1,5 @@
+.conda/
+other_notes/
+**/*.csv
+**/*.parquet
+module_1_docker_terraform/ny_taxi_postgres_data/*
