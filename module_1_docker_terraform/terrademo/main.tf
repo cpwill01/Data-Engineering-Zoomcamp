@@ -13,8 +13,8 @@ provider "google" {
   region      = var.location
 }
 
-resource "google_storage_bucket" "demo_bucket" {
-  name          = "demo-bucket-1"
+resource "google_storage_bucket" "taxi_demo_bucket_94857" {
+  name          = "demo-bucket-taxi"
   location      = var.location
   force_destroy = true
   
@@ -29,8 +29,8 @@ resource "google_storage_bucket" "demo_bucket" {
   }
 }
 
-resource "google_bigquery_dataset" "demo_dataset" {
-  dataset_id    = "demo_dataset"
+resource "google_bigquery_dataset" "demo_dataset_2" {
+  dataset_id    = "demo_dataset_2"
   description   = "This is a test description"
   location      = var.location
 }
