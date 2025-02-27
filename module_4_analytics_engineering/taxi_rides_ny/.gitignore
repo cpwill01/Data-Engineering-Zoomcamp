@@ -3,3 +3,6 @@
 target/
 dbt_packages/
 logs/
+
+# keep seed file for convenience 
+!taxi_zone_lookup.csv
