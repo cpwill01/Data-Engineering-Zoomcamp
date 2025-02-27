@@ -37,4 +37,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   taxi_ride_ny:
-    
+    # Applies to all files under models/.../
+      staging:
+          materialized: view
+vars:
+  payment_type_values: [1, 2, 3, 4, 5, 6]
+
