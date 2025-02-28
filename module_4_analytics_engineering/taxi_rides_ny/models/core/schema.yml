@@ -151,3 +151,49 @@ models:
       - name: payment_type_description
         data_type: string
         description: How the passenger paid for the trip.
+
+      - name: pickup_quarter
+        data_type: INT64
+        description: The quarter of the calendar year when the meter was engaged (from 1 to 4).
+      
+      - name: pickup_month
+        data_type: INT64
+        description: The month of the calendar year when the meter was engaged.
+        
+      - name: pickup_year
+        data_type: INT64
+        description: The calendar year when the meter was engaged.
+    
+  - name: dm_taxi_trips_quarterly_revenue
+    columns:
+      - name: service_type
+        data_type: string
+        description: Indicates whether this is a yellow or green taxi.
+        tests:
+            - not_null:
+                severity: error
+
+      - name: year
+        data_type: INT64
+        description: The calendar year for this revenue calculation.
+        tests:
+            - not_null:
+                severity: error
+      
+      - name: quarter
+        data_type: INT64
+        description: The calendar quarter for this revenue calculation (from 1 to 4).
+        tests:
+            - not_null:
+                severity: error
+      
+      - name: quarterly_total_amount
+        data_type: numeric
+        description: The total revenue in the specified quarter of the specified year.
+        tests:
+            - not_null:
+                severity: error
+
+      - name: yoy_growth
+        data_type: numeric
+        description: The percentage year-on-year growth for the quarter (e.g. 2019/Q1 to 2020/Q1)
