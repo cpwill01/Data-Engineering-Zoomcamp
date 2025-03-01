@@ -3,7 +3,7 @@ Note: For Questions 5-7, the following datasets were ingested into BigQuery:
 * [Yellow Taxi dataset (2019 and 2020)](https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/yellow)
 * [For Hire Vehicle dataset (2019)](https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/fhv)
 
-using the [Kestra workflow in the module 2 folder](https://github.com/cpwill01/Data-Engineering-Zoomcamp/tree/main/module_2_workflow_orchestration)
+using the [Kestra workflow in the module 2 folder](../module_2_workflow_orchestration/taxi_ingestion_to_gcs_gcp_trigger_flow.yaml)
 
 ## Question 1: Understanding dbt model resolution
 
@@ -135,3 +135,14 @@ Answer: green: {best: 2020/Q1, worst: 2020/Q2} at -56% and -92% respectively, ye
 
 Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/dm_taxi_trips_quarterly_revenue.sql)
 
+### Question 6: P97/P95/P90 Taxi Monthly Fare
+
+1. Create a new model `dm_taxi_trips_monthly_fare_p95.sql`
+2. Filter out invalid entries (`fare_amount > 0`, `trip_distance > 0`, and `payment_type_description in ('Cash', 'Credit card')`)
+3. Compute the **continous percentile** of `fare_amount` partitioning by service_type, year and and month
+
+Now, what are the values of `p97`, `p95`, `p90` for Green Taxi and Yellow Taxi, in April 2020?
+
+Answer: green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}
+
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/dm_taxi_trips_monthly_fare_p95.sql)
