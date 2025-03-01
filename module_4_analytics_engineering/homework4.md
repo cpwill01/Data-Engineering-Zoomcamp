@@ -131,9 +131,10 @@ Answer: Statements 1, 3, 4 and 5 are true. Statement 2 is false because `{{- env
 
 Considering the YoY Growth in 2020, which were the yearly quarters with the best (or less worse) and worst results for green, and yellow?
 
-Answer: green: {best: 2020/Q1, worst: 2020/Q2} at -56% and -92% respectively, yellow: {best: 2020/Q1, worst: 2020/Q2} at -19% and -92% respectively. 
+Answer: `green: {best: 2020/Q1, worst: 2020/Q2}` at -56% and -92% respectively, `yellow: {best: 2020/Q1, worst: 2020/Q2}` at -19% and -92% respectively. 
 
-Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/dm_taxi_trips_quarterly_revenue.sql)
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_taxi_trips_quarterly_revenue.sql). 
+After building this, we can just look at the data preview since the table is small enough.
 
 ### Question 6: P97/P95/P90 Taxi Monthly Fare
 
@@ -143,9 +144,10 @@ Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny
 
 Now, what are the values of `p97`, `p95`, `p90` for Green Taxi and Yellow Taxi, in April 2020?
 
-Answer: green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}
+Answer: `green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}`
 
-Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/dm_taxi_trips_monthly_fare_p95.sql)
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_taxi_trips_monthly_fare_p95.sql)
+After building this, we can just look at the data preview since the table is small enough.
 
 ### Question 7: Top #Nth longest P90 travel time Location for FHV
 
@@ -160,3 +162,26 @@ Now...
 3. Compute the **continous** `p90` of `trip_duration` partitioning by year, month, pickup_location_id, and dropoff_location_id
 
 For the Trips that **respectively** started from `Newark Airport`, `SoHo`, and `Yorkville East`, in November 2019, what are **dropoff_zones** with the 2nd longest p90 trip_duration?
+
+Answer: `LaGuardia Airport, Chinatown, Garment District` respectively.
+
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_fhv_monthly_zone_traveltime_p90.sql), with the prerequisite models in the same folder.
+After building these, I ran the following query on BigQuery:
+```sql 
+WITH ranks AS (
+  SELECT 
+    pickup_zone,
+    dropoff_zone,
+    DENSE_RANK() OVER (PARTITION BY pickup_zone ORDER BY trip_duration_p90 DESC) as p90_rank
+  FROM `<BigQuery_project_name>.<BigQuery_dataset_name>.dm_fhv_monthly_zone_traveltime_p90`
+  WHERE
+    year = 2019
+    AND month = 11
+    AND lower(pickup_zone) in ('newark airport', 'soho', 'yorkville east')
+)
+SELECT
+  pickup_zone,
+  dropoff_zone
+FROM ranks
+WHERE p90_rank = 2; 
+```
