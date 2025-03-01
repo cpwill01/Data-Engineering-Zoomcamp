@@ -241,3 +241,69 @@ models:
         tests:
             - not_null:
                 severity: error
+
+  - name: fact_fhv_trips
+    description: >
+      Trips corresponding to For-Hire-Vehicles (FHVs).
+      The table contains records where both pickup and dropoff locations are valid and known zones. 
+      Each record corresponds to a trip uniquely identified by tripid. 
+    columns:
+      - name: tripid
+        data_type: string
+        description: Primary key for this table, generated with a concatenation of dispatching_base_num+pickup_datetime
+
+      - name: dispatching_base_num
+        description: > 
+            The TLC Base License Number of the base that dispatched the trip
+
+      - name: pickup_locationid
+        description: locationid where the trip began.
+
+      - name: pickup_borough
+        data_type: string
+        description: borough where the trip began.
+
+      - name: pickup_zone
+        data_type: string
+        description: zone where the trip began.
+
+      - name: dropoff_locationid 
+        description: locationid where the trip ended.
+
+      - name: dropoff_borough
+        data_type: string
+        description: borough where the trip ended.
+
+      - name: dropoff_zone
+        data_type: string
+        description: zone where the trip ended.
+
+      - name: affiliated_base_num
+        description: >
+            The TLC Base License Number of the base that the dispatched vehicle is affiliated to.
+      
+      - name: pickup_datetime 
+        description: The date and time of the trip pick-up.
+
+      - name: dropoff_datetime 
+        description: The date and time of the trip dropoff.
+
+      - name: sr_flag
+        description: > 
+            Indicates if the trip was a part of a shared ride chain offered by a
+            High Volume FHV company (e.g. Uber Pool, Lyft Line). For shared
+            trips, the value is 1. For non-shared rides, this field is null.
+      
+      - name: pickup_month
+        data_type: INT64
+        description: The month of the calendar year of the trip pick-up.
+        tests:
+          - not_null:
+                severity: error
+        
+      - name: pickup_year
+        data_type: INT64
+        description: The calendar year of the trip pick-up.
+        tests:
+          - not_null:
+                severity: error

@@ -146,3 +146,17 @@ Now, what are the values of `p97`, `p95`, `p90` for Green Taxi and Yellow Taxi, 
 Answer: green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}
 
 Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/dm_taxi_trips_monthly_fare_p95.sql)
+
+### Question 7: Top #Nth longest P90 travel time Location for FHV
+
+Prerequisites:
+- [x] Create a staging model for FHV Data (2019), and **DO NOT** add a deduplication step, just filter out the entries where `where dispatching_base_num is not null`
+- [x] Create a core model for FHV Data (`fact_fhv_trips.sql`) joining with `dim_zones`. Similar to what has been done [here](./taxi_rides_ny/models/core/fact_trips.sql)
+- [x] Add some new dimensions `year` (e.g.: 2019) and `month` (e.g.: 1, 2, ..., 12), based on `pickup_datetime`, to the core model to facilitate filtering for your queries
+
+Now...
+1. Create a new model `dm_fhv_monthly_zone_traveltime_p90.sql`
+2. For each record in `fact_fhv_trips.sql`, compute the [timestamp_diff](https://cloud.google.com/bigquery/docs/reference/standard-sql/timestamp_functions#timestamp_diff) in seconds between dropoff_datetime and pickup_datetime - we'll call it `trip_duration` for this exercise
+3. Compute the **continous** `p90` of `trip_duration` partitioning by year, month, pickup_location_id, and dropoff_location_id
+
+For the Trips that **respectively** started from `Newark Airport`, `SoHo`, and `Yorkville East`, in November 2019, what are **dropoff_zones** with the 2nd longest p90 trip_duration?
