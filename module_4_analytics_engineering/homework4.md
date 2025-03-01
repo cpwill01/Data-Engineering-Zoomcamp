@@ -133,7 +133,7 @@ Considering the YoY Growth in 2020, which were the yearly quarters with the best
 
 Answer: `green: {best: 2020/Q1, worst: 2020/Q2}` at -56% and -92% respectively, `yellow: {best: 2020/Q1, worst: 2020/Q2}` at -19% and -92% respectively. 
 
-Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_taxi_trips_quarterly_revenue.sql). 
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/mart/dm_taxi_trips_quarterly_revenue.sql). 
 After building this, we can just look at the data preview since the table is small enough.
 
 ### Question 6: P97/P95/P90 Taxi Monthly Fare
@@ -146,7 +146,7 @@ Now, what are the values of `p97`, `p95`, `p90` for Green Taxi and Yellow Taxi, 
 
 Answer: `green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}`
 
-Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_taxi_trips_monthly_fare_p95.sql)
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/mart/dm_taxi_trips_monthly_fare_p95.sql)
 After building this, we can just look at the data preview since the table is small enough.
 
 ### Question 7: Top #Nth longest P90 travel time Location for FHV
@@ -165,7 +165,7 @@ For the Trips that **respectively** started from `Newark Airport`, `SoHo`, and `
 
 Answer: `LaGuardia Airport, Chinatown, Garment District` respectively.
 
-Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/core/dm_fhv_monthly_zone_traveltime_p90.sql), with the prerequisite models in the same folder.
+Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/mart/dm_fhv_monthly_zone_traveltime_p90.sql), with the prerequisite `fact_fhv_trips` model in the `models/core` folder.
 After building these, I ran the following query on BigQuery:
 ```sql 
 WITH ranks AS (
