@@ -7,7 +7,7 @@ keys/
 *.csv
 *.parquet
 module_1_docker_terraform/ny_taxi_postgres_data/*
-
+module_5_batch_processing/data/*
 
 # Local .terraform directories
 **/.terraform/*
