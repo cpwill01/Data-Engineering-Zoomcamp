@@ -64,7 +64,7 @@ Answer: Update the WHERE clause to `pickup_datetime >= CURRENT_DATE - INTERVAL '
 From the [dbt documentation](https://docs.getdbt.com/reference/dbt-jinja-functions/var), "The `var()` function takes an optional second argument, default. If this argument is provided, then it will be the default value for the variable if one is not explicitly defined."
 The syntax is similar for `env_var`. Hence, `'{{ var("days_back", env_var("DAYS_BACK", "30")) }}'` will first check for the command line argument `"days_back"`, then check for the environment variable if no such argument was specified, and finally default to `"30"` if both are not defined.
 
-### Question 3: dbt Data Lineage and Execution
+## Question 3: dbt Data Lineage and Execution
 
 Considering the data lineage below **and** that taxi_zone_lookup is the **only** materialization build (from a .csv seed file):
 
@@ -80,7 +80,7 @@ Select the option that does **NOT** apply for materializing `fct_taxi_monthly_zo
 
 Answer: `dbt run --select models/staging/+`. This command does not run the `taxi_zone_lookup` and `dim_zone_lookup` models as they are not downstream from any of the staging models.
 
-### Question 4: dbt Macros and Jinja
+## Question 4: dbt Macros and Jinja
 
 Consider you're dealing with sensitive data (e.g.: [PII](https://en.wikipedia.org/wiki/Personal_data)), that is **only available to your team and very selected few individuals**, in the `raw layer` of your DWH (e.g: a specific BigQuery dataset or PostgreSQL schema), 
 
@@ -119,7 +119,7 @@ That all being said, regarding macro above, **select all statements that are tru
 
 Answer: Statements 1, 3, 4 and 5 are true. Statement 2 is false because `{{- env_var(stging_env_var, env_var(target_env_var)) -}}` compiles successfully even when `DBT_BIGQUERY_STAGING_DATASET` is not set, as long as `DBT_BIGQUERY_TARGET_DATASET` is set.
 
-### Question 5: Taxi Quarterly Revenue Growth
+## Question 5: Taxi Quarterly Revenue Growth
 
 1. Create a new model `dm_taxi_trips_quarterly_revenue.sql`
 2. Compute the Quarterly Revenues for each year for based on `total_amount`
@@ -136,7 +136,7 @@ Answer: `green: {best: 2020/Q1, worst: 2020/Q2}` at -56% and -92% respectively, 
 Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/mart/dm_taxi_trips_quarterly_revenue.sql). 
 After building this, we can just look at the data preview since the table is small enough.
 
-### Question 6: P97/P95/P90 Taxi Monthly Fare
+## Question 6: P97/P95/P90 Taxi Monthly Fare
 
 1. Create a new model `dm_taxi_trips_monthly_fare_p95.sql`
 2. Filter out invalid entries (`fare_amount > 0`, `trip_distance > 0`, and `payment_type_description in ('Cash', 'Credit card')`)
@@ -149,7 +149,7 @@ Answer: `green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5
 Note: The model I wrote to obtain the answer is available [here](./taxi_rides_ny/models/mart/dm_taxi_trips_monthly_fare_p95.sql)
 After building this, we can just look at the data preview since the table is small enough.
 
-### Question 7: Top #Nth longest P90 travel time Location for FHV
+## Question 7: Top #Nth longest P90 travel time Location for FHV
 
 Prerequisites:
 - [x] Create a staging model for FHV Data (2019), and **DO NOT** add a deduplication step, just filter out the entries where `where dispatching_base_num is not null`
